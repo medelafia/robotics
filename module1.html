@@ -1,0 +1,1438 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Module 1 : Fondamentaux Électriques</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html, body { width: 100%; overflow-x: hidden; }
+  body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #eef2f7;
+    color: #202124;
+    line-height: 1.6;
+    font-size: 16px;
+  }
+
+  /* HEADER */
+  .site-header {
+    background: #1a73e8;
+    color: #fff;
+    padding: 30px 20px;
+    text-align: center;
+    width: 100%;
+  }
+  .site-header h1 { font-size: 26px; margin-bottom: 6px; }
+  .site-header p { font-size: 15px; opacity: 0.9; }
+
+  /* TABS */
+  .tabs {
+    width: 100%;
+    padding: 20px 16px 8px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    justify-content: center;
+    max-width: 960px;
+    margin: 0 auto;
+  }
+  .tab {
+    background: #fff;
+    border: 2px solid #dadce0;
+    color: #5f6368;
+    padding: 10px 18px;
+    border-radius: 30px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .tab:hover { border-color: #1a73e8; color: #1a73e8; }
+  .tab.active { background: #1a73e8; color: #fff; border-color: #1a73e8; }
+
+  /* MAIN */
+  .main {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 16px;
+    display: block;
+  }
+
+  /* CARD */
+  .card {
+    display: block;
+    width: 100%;
+    background: #fff;
+    border-radius: 16px;
+    padding: 24px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+    border: 1px solid #e0e4e8;
+    overflow-wrap: break-word;
+    word-wrap: break-word;
+  }
+  .card h2 {
+    font-size: 20px;
+    color: #0d47a1;
+    margin-bottom: 16px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid #e3f2fd;
+  }
+  .card h3 {
+    font-size: 16px;
+    color: #202124;
+    margin: 18px 0 10px;
+  }
+  .card p { margin-bottom: 12px; }
+  .card ul { padding-left: 22px; margin: 10px 0; }
+  .card ul li { margin-bottom: 4px; }
+
+  /* BOXES */
+  .analogy {
+    background: #fff8e1;
+    border-left: 5px solid #ffab00;
+    padding: 14px 18px;
+    border-radius: 0 10px 10px 0;
+    margin: 14px 0;
+  }
+  .analogy strong { color: #e65100; }
+  .tip {
+    background: #e8f5e9;
+    border-left: 5px solid #00c853;
+    padding: 14px 18px;
+    border-radius: 0 10px 10px 0;
+    margin: 14px 0;
+  }
+  .warn {
+    background: #ffebee;
+    border-left: 5px solid #d50000;
+    padding: 14px 18px;
+    border-radius: 0 10px 10px 0;
+    margin: 14px 0;
+  }
+  .highlight {
+    background: linear-gradient(180deg, transparent 60%, #fff176 60%);
+    font-weight: 700;
+  }
+
+  /* CIRCUIT */
+  .circuit-box {
+    background: #1a1a2e;
+    border-radius: 12px;
+    padding: 24px 16px;
+    margin: 16px 0;
+    text-align: center;
+  }
+  .circuit-items {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .battery {
+    width: 80px; height: 50px;
+    background: #ff8f00;
+    border: 2px solid #ff6f00;
+    border-radius: 8px;
+    color: #fff;
+    font-weight: 900;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    user-select: none;
+  }
+  .wire { width: 40px; height: 6px; background: #666; border-radius: 3px; }
+  .wire.on { background: #00e676; box-shadow: 0 0 10px #00e676; }
+  .resistor {
+    width: 70px; height: 26px;
+    background: #e0c8a0;
+    border: 2px solid #8d6e63;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    cursor: pointer;
+  }
+  .resistor .band { width: 7px; height: 100%; }
+  .band.r { background: #d50000; }
+  .band.k { background: #212121; }
+  .band.g { background: #ffd600; }
+  .led {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: #555;
+    border: 3px solid #888;
+    display: block;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+  .led.on {
+    background: #ff1744;
+    border-color: #ff5252;
+    box-shadow: 0 0 25px #ff1744;
+  }
+  .status {
+    color: #ccc;
+    font-size: 14px;
+    margin-top: 16px;
+    padding: 10px;
+    border-radius: 8px;
+    min-height: 22px;
+  }
+  .status.ok { color: #69f0ae; background: rgba(0,230,118,0.1); }
+  .status.err { color: #ff5252; background: rgba(213,0,0,0.1); }
+
+  /* POLARITY */
+  .polarity-grid {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin: 16px 0;
+  }
+  .polarity-card {
+    border: 2px solid #dadce0;
+    border-radius: 12px;
+    padding: 16px 24px;
+    text-align: center;
+    min-width: 140px;
+  }
+  .polarity-card .legs {
+    display: flex;
+    align-items: flex-end;
+    gap: 8px;
+    height: 55px;
+    margin-bottom: 8px;
+    justify-content: center;
+  }
+  .leg { width: 6px; border-radius: 3px; }
+  .leg.long { height: 50px; background: #ff6d00; }
+  .leg.short { height: 32px; background: #546e7a; }
+
+  /* CODE */
+  .code {
+    background: #1e1e2e;
+    color: #cdd6f4;
+    padding: 18px;
+    border-radius: 12px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow-x: auto;
+    margin: 14px 0;
+  }
+  .code .kw { color: #cba6f7; }
+  .code .fn { color: #89b4fa; }
+  .code .num { color: #fab387; }
+  .code .cmt { color: #6c7086; font-style: italic; }
+  .cline { display: block; padding: 2px 8px; border-left: 3px solid transparent; }
+  .cline.active { background: rgba(137,180,250,0.18); border-left-color: #89b4fa; }
+
+  /* TRAFFIC */
+  .traffic {
+    background: #263238;
+    width: 90px;
+    padding: 16px;
+    border-radius: 16px;
+    margin: 16px auto;
+  }
+  .traffic .light {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: #37474f;
+    border: 3px solid #455a64;
+    margin: 0 auto 8px;
+    transition: all 0.3s;
+  }
+  .traffic .light:last-child { margin-bottom: 0; }
+  .traffic .light.red.on { background: #ff1744; box-shadow: 0 0 25px #ff1744; }
+  .traffic .light.yellow.on { background: #ffea00; box-shadow: 0 0 25px #ffea00; }
+  .traffic .light.green.on { background: #00e676; box-shadow: 0 0 25px #00e676; }
+
+  /* BUTTONS */
+  .btn {
+    display: inline-block;
+    padding: 12px 24px;
+    border: none;
+    border-radius: 30px;
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    font-family: inherit;
+    transition: all 0.2s;
+  }
+  .btn-primary { background: #1a73e8; color: #fff; }
+  .btn-primary:hover { background: #0d47a1; }
+  .btn-success { background: #00c853; color: #fff; }
+  .btn-success:hover { background: #00a844; }
+  .btn-outline { background: #fff; color: #1a73e8; border: 2px solid #1a73e8; }
+  .btn-outline:hover { background: #e3f2fd; }
+  .btn-row { display: flex; gap: 10px; flex-wrap: wrap; margin: 16px 0; justify-content: center; }
+
+  /* TABLE */
+  table.data {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 14px 0;
+    font-size: 14px;
+  }
+  table.data th, table.data td {
+    padding: 10px 14px;
+    border: 1px solid #dadce0;
+    text-align: left;
+  }
+  table.data th { background: #f5f7fa; color: #0d47a1; }
+  table.data tr:nth-child(even) td { background: #fafbfc; }
+
+  /* PROGRESS */
+  .progress {
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin: 12px 0;
+  }
+  .progress > div {
+    height: 100%;
+    background: #1a73e8;
+    width: 0%;
+    transition: width 0.4s;
+  }
+
+  /* QUIZ */
+  .quiz-opt {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 12px 16px;
+    margin: 6px 0;
+    border: 2px solid #dadce0;
+    border-radius: 10px;
+    background: #fff;
+    cursor: pointer;
+    font-family: inherit;
+    font-size: 14px;
+    transition: all 0.2s;
+  }
+  .quiz-opt:hover { border-color: #1a73e8; background: #f5f9ff; }
+  .quiz-opt.correct { border-color: #00c853; background: #e8f5e9; }
+  .quiz-opt.wrong { border-color: #d50000; background: #ffebee; }
+  .quiz-opt:disabled { cursor: default; opacity: 0.85; }
+  .feedback {
+    padding: 12px;
+    border-radius: 8px;
+    margin-top: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    display: none;
+  }
+  .feedback.show { display: block; }
+  .feedback.correct { background: #e8f5e9; color: #1b5e20; }
+  .feedback.wrong { background: #ffebee; color: #b71c1c; }
+
+  /* BREADBOARD */
+  .bb-container { background: #e8eaf6; border-radius: 12px; padding: 14px; overflow-x: auto; margin: 14px 0; }
+  .bb-row { display: flex; gap: 2px; justify-content: center; margin-bottom: 2px; }
+  .bb-hole { width: 14px; height: 14px; background: #9e9e9e; border-radius: 50%; border: 1px solid #757575; cursor: pointer; }
+  .bb-rail { width: 14px; height: 14px; border-radius: 2px; cursor: pointer; }
+  .bb-rail.red { background: #ef5350; }
+  .bb-rail.blue { background: #42a5f5; }
+  .bb-gap { height: 8px; }
+
+  /* ============================================
+     TRACE ÉCRITE — Style cahier d'élève
+     ============================================ */
+  .trace-ecrite {
+    background: #fffef5;
+    background-image:
+      linear-gradient(#e0e0e0 1px, transparent 1px);
+    background-size: 100% 28px;
+    background-position: 0 40px;
+    border: 2px solid #1a73e8;
+    border-left: 8px solid #1a73e8;
+    border-radius: 8px;
+    padding: 20px 24px 20px 32px;
+    margin: 24px 0 8px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(26,115,232,0.1);
+  }
+  .trace-ecrite::before {
+    content: "📝";
+    position: absolute;
+    top: -16px;
+    left: 20px;
+    background: #1a73e8;
+    color: #fff;
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 2px 8px rgba(26,115,232,0.4);
+  }
+  .trace-header {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .trace-header h3 {
+    font-size: 17px !important;
+    color: #1a73e8 !important;
+    margin: 0 !important;
+    padding: 0 !important;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .trace-header .trace-sub {
+    font-size: 12px;
+    color: #666;
+    font-style: italic;
+    background: #e3f2fd;
+    padding: 2px 10px;
+    border-radius: 20px;
+  }
+  .trace-ecrite p,
+  .trace-ecrite li,
+  .trace-ecrite td,
+  .trace-ecrite th {
+    font-size: 14px;
+    line-height: 28px;
+  }
+  .trace-ecrite p { margin: 8px 0; }
+  .trace-ecrite ul { padding-left: 22px; margin: 8px 0; }
+  .trace-ecrite ul li { margin-bottom: 0; }
+  .trace-ecrite strong { color: #0d47a1; }
+  .trace-ecrite .key-point {
+    background: #fff3cd;
+    border-left: 4px solid #ffab00;
+    padding: 8px 14px;
+    border-radius: 0 8px 8px 0;
+    margin: 10px 0;
+    font-weight: 600;
+    color: #663c00;
+  }
+  .trace-ecrite table.data {
+    background: #fff;
+    margin: 12px 0;
+  }
+  .trace-ecrite table.data th {
+    background: #e3f2fd;
+    color: #0d47a1;
+  }
+  .trace-ecrite .trace-formula {
+    background: #1e1e2e;
+    color: #a6e3a1;
+    padding: 12px 16px;
+    border-radius: 8px;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    text-align: center;
+    margin: 10px 0;
+  }
+
+  /* UTILS */
+  .center { text-align: center; }
+  .mt { margin-top: 16px; }
+
+  @media (max-width: 600px) {
+    .site-header h1 { font-size: 20px; }
+    .card { padding: 18px; }
+    .btn { padding: 10px 18px; font-size: 13px; }
+    .main { padding: 10px; }
+    .trace-ecrite { padding: 18px 16px 18px 24px; }
+    .trace-header h3 { font-size: 15px !important; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1>⚡ Module 1 : Fondamentaux Électriques</h1>
+  <p>LED • Breadboard • Arduino • Feu tricolore</p>
+</header>
+
+<nav class="tabs" id="tabs">
+  <button class="tab active" data-s="intro">🏠 Introduction</button>
+  <button class="tab" data-s="led">💡 La LED</button>
+  <button class="tab" data-s="circuit">🔌 Le Circuit</button>
+  <button class="tab" data-s="resistance">🛡️ La Résistance</button>
+  <button class="tab" data-s="breadboard">🧰 Breadboard</button>
+  <button class="tab" data-s="arduino">🤖 Arduino</button>
+  <button class="tab" data-s="traffic">🚦 Fe Tricolore</button>
+  <button class="tab" data-s="quiz">🧠 Quiz</button>
+</nav>
+
+<main class="main" id="main"></main>
+
+<script>
+// ================================================================
+// SECTION CONTENT
+// ================================================================
+var SECTIONS = {
+
+  intro: `
+    <div class="card">
+      <h2>👋 Bienvenue dans le Module 1 !</h2>
+      <p>Dans ce module, tu vas découvrir les <strong>bases de l'électricité</strong> et allumer ta première LED. On va tout expliquer avec des <span class="highlight">analogies simples</span> !</p>
+
+      <div class="analogy">
+        <strong>💧 Analogie de l'eau :</strong> L'électricité, c'est comme l'eau qui coule dans des tuyaux. Elle a besoin d'un <strong>circuit complet</strong> pour circuler.
+      </div>
+
+      <h3>🎯 Ce que tu vas apprendre</h3>
+      <ul>
+        <li>Ce qu'est une LED et comment la brancher</li>
+        <li>La polarité (le sens du courant)</li>
+        <li>Le rôle de la résistance</li>
+        <li>Utiliser une breadboard</li>
+        <li>Programmer un Arduino</li>
+        <li>Créer un feu tricolore automatique</li>
+      </ul>
+
+      <div class="tip">
+        <strong>🎮 Comment utiliser ce cours ?</strong> Clique sur les onglets en haut pour naviguer. Chaque section a des <strong>zones interactives</strong> et une <strong>Trace Écrite</strong> à recopier !
+      </div>
+
+      <div class="trace-ecrite">
+        <div class="trace-header">
+          <h3>Trace Écrite — Introduction</h3>
+          <span class="trace-sub">À recopier dans le cahier</span>
+        </div>
+
+        <p><strong>Leçon 1 : Les bases de l'électricité</strong></p>
+
+        <p><strong>1. Définition</strong><br>
+        L'électricité est un déplacement de charges dans un matériau conducteur (comme le cuivre).</p>
+
+        <p><strong>2. Analogie de l'eau</strong><br>
+        L'électricité = l'eau qui coule dans des tuyaux. Elle a besoin d'un <strong>circuit complet</strong> pour circuler.</p>
+
+        <p><strong>3. Les composants de base</strong></p>
+        <table class="data">
+          <tr><th>Composant</th><th>Rôle</th></tr>
+          <tr><td>🔋 Pile</td><td>Fournit l'énergie</td></tr>
+          <tr><td>💡 LED</td><td>S'allume quand le courant passe</td></tr>
+          <tr><td>🟤 Résistance</td><td>Limite le courant</td></tr>
+          <tr><td>🔵 Fil</td><td>Transporte l'électricité</td></tr>
+        </table>
+
+        <p><strong>4. Vocabulaire</strong></p>
+        <ul>
+          <li><strong>Tension (V)</strong> = pression de l'électricité</li>
+          <li><strong>Courant (A)</strong> = débit d'électricité</li>
+          <li><strong>Circuit fermé</strong> = boucle complète</li>
+          <li><strong>Circuit ouvert</strong> = boucle coupée</li>
+        </ul>
+
+        <div class="key-point">
+          ⭐ À retenir : Sans circuit fermé, le courant ne circule pas.
+        </div>
+      </div>
+
+      <div class="center mt">
+        <button class="btn btn-primary" onclick="showSection('led')">Commencer l'aventure →</button>
+      </div>
+    </div>
+  `,
+
+  led: `
+    <div class="card">
+      <h2>💡 La LED : La porte à sens unique</h2>
+      <p>Une LED (Light Emitting Diode) est un composant qui <strong>s'allume quand le courant passe dans le bon sens</strong>.</p>
+
+      <div class="analogy">
+        <strong>🚪 Analogie :</strong> Une LED, c'est comme une <strong>porte à sens unique</strong>.<br>
+        L'électricité entre par la <strong>patte longue</strong> (anode +) et ressort par la <strong>patte courte</strong> (cathode −).
+      </div>
+
+      <h3>🔍 Reconnaître les pattes</h3>
+      <div class="polarity-grid">
+        <div class="polarity-card">
+          <div class="legs">
+            <span class="leg long"></span>
+            <span class="leg short"></span>
+          </div>
+          <strong>Patte LONGUE = +</strong><br>
+          <small style="color:#666;">Entrée (anode)</small>
+        </div>
+        <div class="polarity-card">
+          <div class="legs">
+            <span class="leg short"></span>
+            <span class="leg long"></span>
+          </div>
+          <strong>Patte COURTE = −</strong><br>
+          <small style="color:#666;">Sortie (cathode)</small>
+        </div>
+      </div>
+
+      <div class="warn">
+        <strong>⚠️ Attention :</strong> Si tu branches la LED à l'envers, elle ne s'allume pas. Ce n'est pas grave, elle ne grille pas — il suffit de la retourner !
+      </div>
+
+      <div class="tip center">
+        <div style="font-size:32px;">🗣️</div>
+        <strong>"La plus LONGUE reçoit le PLUS"</strong><br>
+        <small>Patte longue = pôle positif (+)</small>
+      </div>
+
+      <div class="trace-ecrite">
+        <div class="trace-header">
+          <h3>Trace Écrite — La LED</h3>
+          <span class="trace-sub">À recopier dans le cahier</span>
+        </div>
+
+        <p><strong>Leçon 2 : La LED, une porte à sens unique</strong></p>
+
+        <p><strong>1. Définition</strong><br>
+        <strong>LED</strong> = <strong>L</strong>ight <strong>E</strong>mitting <strong>D</strong>iode.<br>
+        Composant qui s'allume quand le courant passe dans le bon sens.</p>
+
+        <p><strong>2. La polarité</strong><br>
+        Une LED a deux pattes différentes :</p>
+        <table class="data">
+          <tr><th>Patte</th><th>Nom</th><th>Symbole</th><th>Rôle</th></tr>
+          <tr><td>Longue</td><td>Anode</td><td><strong>+</strong></td><td>Entrée du courant</td></tr>
+          <tr><td>Courte</td><td>Cathode</td><td><strong>−</strong></td><td>Sortie du courant</td></tr>
+        </table>
+
+        <p><strong>3. Analogie</strong><br>
+        La LED est comme une <strong>porte à sens unique</strong> : le courant entre par la patte longue et ressort par la patte courte.</p>
+
+        <div class="key-point">
+          🗣️ Moyen mnémotechnique :<br>
+          « La plus <strong>LONGUE</strong> reçoit le <strong>PLUS</strong> »
+        </div>
+
+        <p><strong>4. Si on inverse la LED</strong></p>
+        <ul>
+          <li>La LED <strong>ne s'allume pas</strong></li>
+          <li>Elle <strong>ne grille pas</strong> (pas de danger)</li>
+          <li>Il suffit de la <strong>retourner</strong></li>
+        </ul>
+      </div>
+
+      <div class="center mt">
+        <button class="btn btn-primary" onclick="showSection('circuit')">Construire un circuit →</button>
+      </div>
+    </div>
+  `,
+
+  circuit: `
+    <div class="card">
+      <h2>🔌 Le Circuit Électrique</h2>
+      <p>Pour que l'électricité circule, il faut une <strong>boucle complète</strong> : c'est le circuit fermé.</p>
+
+      <div class="analogy">
+        <strong>🏰 Analogie du château d'eau :</strong><br>
+        1. L'eau part du château (pile +)<br>
+        2. Elle passe par le ralentisseur (résistance)<br>
+        3. Elle traverse la turbine (LED)<br>
+        4. Elle retourne au château (pile −)<br>
+        <strong>Sans boucle complète = pas de circulation !</strong>
+      </div>
+
+      <h3>🎮 Circuit interactif — Clique sur les éléments !</h3>
+      <p style="font-size:14px; color:#666;">Clique sur la pile pour allumer/éteindre. Clique sur la LED pour inverser sa polarité. Clique sur la résistance pour l'enlever.</p>
+
+      <div class="circuit-box">
+        <div class="circuit-items">
+          <div class="battery" id="battery" onclick="toggleBattery()">🔋 3.7V</div>
+          <div class="wire" id="w1"></div>
+          <div class="resistor" id="resistor" onclick="toggleResistor()">
+            <span class="band r"></span>
+            <span class="band k"></span>
+            <span class="band g"></span>
+          </div>
+          <div class="wire" id="w2"></div>
+          <div style="text-align:center;">
+            <div class="led" id="led" onclick="toggleLED()"></div>
+            <div style="font-size:11px; color:#aaa; margin-top:4px;">LED</div>
+          </div>
+          <div class="wire" id="w3"></div>
+        </div>
+        <div class="status" id="status">💡 Clique sur la pile pour commencer</div>
+      </div>
+
+      <div class="center">
+        <button class="btn btn-outline" onclick="resetCircuit()">🔄 Réinitialiser</button>
+      </div>
+
+      <div class="trace-ecrite">
+        <div class="trace-header">
+          <h3>Trace Écrite — Le Circuit</h3>
+          <span class="trace-sub">À recopier dans le cahier</span>
+        </div>
+
+        <p><strong>Leçon 3 : Le circuit électrique</strong></p>
+
+        <p><strong>1. Définition</strong><br>
+        Un circuit électrique est un <strong>chemin fermé</strong> par lequel circule le courant.</p>
+
+        <p><strong>2. Condition essentielle</strong><br>
+        Pour que le courant circule, il faut une <strong>boucle complète</strong> :</p>
+
+        <div class="trace-formula">
+          Pile (+) → Résistance → LED → Pile (−)
+        </div>
+
+        <div class="key-point">
+          ⭐ Sans boucle complète = pas de circulation !
+        </div>
+
+        <p><strong>3. Analogie du château d'eau</strong></p>
+        <ul>
+          <li>L'eau part du <strong>château</strong> (pile +)</li>
+          <li>Elle passe par le <strong>ralentisseur</strong> (résistance)</li>
+          <li>Elle traverse la <strong>turbine</strong> (LED)</li>
+          <li>Elle retourne au <strong>château</strong> (pile −)</li>
+        </ul>
+
+        <p><strong>4. Vocabulaire</strong></p>
+        <table class="data">
+          <tr><th>Terme</th><th>Définition</th></tr>
+          <tr><td>Circuit fermé</td><td>Boucle complète → le courant circule</td></tr>
+          <tr><td>Circuit ouvert</td><td>Boucle coupée → le courant ne circule pas</td></tr>
+          <tr><td>Court-circuit</td><td>Chemin trop court → danger !</td></tr>
+        </table>
+
+        <p><strong>5. Sens du courant</strong><br>
+        Le courant part du <strong>+</strong> de la pile et revient au <strong>−</strong>.</p>
+      </div>
+
+      <div class="center mt">
+        <button class="btn btn-primary" onclick="showSection('resistance')">Découvrir la résistance →</button>
+      </div>
+    </div>
+  `,
+
+  resistance: `
+    <div class="card">
+      <h2>🛡️ La Résistance : Le ralentisseur</h2>
+      <p>La résistance limite le courant pour <strong>protéger la LED</strong>. Sans elle, la LED grille instantanément !</p>
+
+      <div class="analogy">
+        <strong>🚗 Analogie :</strong> C'est un <strong>ralentisseur sur la route</strong>.<br>
+        Sans lui, c'est comme rouler à 200 km/h dans un virage → la LED <strong>explose</strong> !
+      </div>
+
+      <h3>🎨 Code couleur de la résistance 220Ω</h3>
+      <div class="center">
+        <div class="resistor" style="width:120px; height:34px; margin: 0 auto;">
+          <span class="band r" style="width:9px;"></span>
+          <span class="band k" style="width:9px;"></span>
+          <span class="band g" style="width:9px;"></span>
+        </div>
+        <p style="margin-top:10px; font-size:14px;">
+          <strong>Rouge = 2</strong> • <strong>Noir = 0</strong> • <strong>Or = ×1</strong><br>
+          → 20 × 1 = <strong>220 Ω</strong>
+        </p>
+      </div>
+
+      <h3>⚠️ Expérience : Sans résistance</h3>
+      <div class="center">
+        <button class="btn btn-outline" onclick="grillLED()">⚡ Tester sans résistance</button>
+      </div>
+      <div id="grillResult" style="margin-top:14px;"></div>
+
+      <div class="tip mt">
+        <strong>✅ Règle d'or :</strong> TOUJOURS utiliser une résistance de <strong>220Ω</strong> avec une LED.
+      </div>
+
+      <div class="trace-ecrite">
+        <div class="trace-header">
+          <h3>Trace Écrite — La Résistance</h3>
+          <span class="trace-sub">À recopier dans le cahier</span>
+        </div>
+
+        <p><strong>Leçon 4 : La résistance, protectrice de la LED</strong></p>
+
+        <p><strong>1. Définition</strong><br>
+        Une <strong>résistance</strong> est un composant qui <strong>limite le courant</strong> dans un circuit.</p>
+
+        <p><strong>2. Pourquoi en utiliser une ?</strong></p>
+        <ul>
+          <li>La LED est <strong>fragile</strong> : elle ne supporte pas un courant fort</li>
+          <li>Sans résistance, la LED <strong>grille instantanément</strong></li>
+          <li>La résistance <strong>ralentit</strong> le courant pour protéger la LED</li>
+        </ul>
+
+        <div class="key-point">
+          🚗 Analogie : la résistance = un ralentisseur sur la route.<br>
+          Sans lui = 200 km/h → la LED explose.
+        </div>
+
+        <p><strong>3. Code couleur de la résistance 220Ω</strong></p>
+        <table class="data">
+          <tr><th>Couleur</th><th>Valeur</th></tr>
+          <tr><td>🔴 Rouge</td><td>2</td></tr>
+          <tr><td>⚫ Noir</td><td>0</td></tr>
+          <tr><td>🟡 Or</td><td>× 1</td></tr>
+        </table>
+        <p>→ 20 × 1 = <strong>220 Ω</strong></p>
+
+        <p><strong>4. Règle d'or</strong></p>
+        <div class="trace-formula">
+          TOUJOURS une résistance de 220Ω avec une LED
+        </div>
+      </div>
+
+      <div class="center mt">
+        <button class="btn btn-primary" onclick="showSection('breadboard')">Passer à la breadboard →</button>
+      </div>
+    </div>
+  `,
+
+  breadboard: `
+    <div class="card">
+      <h2>🧰 La Breadboard : Notre établi</h2>
+      <p>La breadboard permet de <strong>construire des circuits sans souder</strong>. Les trous sont connectés entre eux de façon invisible.</p>
+
+      <div class="analogy">
+        <strong>🏙️ Analogie de la ville :</strong><br>
+        • <strong>Rails rouges/bleus</strong> = autoroutes électriques<br>
+        • <strong>Colonnes centrales</strong> = immeubles de 5 étages connectés<br>
+        • <strong>Fossé central</strong> = rivière qui sépare la ville
+      </div>
+
+      <h3>🔍 Explore la breadboard</h3>
+      <p style="font-size:14px; color:#666;">Clique sur un trou pour voir les autres trous connectés (surbrillance orange).</p>
+
+      <div class="bb-container" id="breadboard"></div>
+
+      <div class="tip">
+        <strong>💡 Astuce :</strong> Les trous d'une même <strong>colonne</strong> (5 trous verticaux) sont connectés. Les rails rouges (+) et bleus (−) sont connectés horizontalement.
+      </div>
+
+      <h3>🎯 Les 3 défis de la breadboard</h3>
+      <div style="display:flex; gap:10px; flex-wrap:wrap; margin:14px 0;">
+        <div style="flex:1; min-width:160px; background:#e3f2fd; padding:14px; border-radius:12px;">
+          <strong>🏎️ Défi 1 : L'autoroute</strong><br>
+          <small>3 LED sur le rail rouge — toutes s'allument !</small>
+        </div>
+        <div style="flex:1; min-width:160px; background:#fff3e0; padding:14px; border-radius:12px;">
+          <strong>🏢 Défi 2 : L'immeuble</strong><br>
+          <small>Une LED entre colonne 10 et 11</small>
+        </div>
+        <div style="flex:1; min-width:160px; background:#e8f5e9; padding:14px; border-radius:12px;">
+          <strong>🌊 Défi 3 : Le fossé</strong><br>
+          <small>Une LED à cheval sur le fossé</small>
+        </div>
+      </div>
+
+      <div class="trace-ecrite">
+        <div class="trace-header">
+          <h3>Trace Écrite — La Breadboard</h3>
+          <span class="trace-sub">À recopier dans le cahier</span>
+        </div>
+
+        <p><strong>Leçon 5 : La breadboard (plaque d'essai)</strong></p>
+
+        <p><strong>1. Définition</strong><br>
+        La breadboard est une plaque qui permet de <strong>construire des circuits sans souder</strong>.</p>
+
+        <p><strong>2. Organisation des trous</strong></p>
+        <table class="data">
+          <tr><th>Zone</th><th>Connexion</th></tr>
+          <tr><td>Rails rouges (+)</td><td>Connectés horizontalement</td></tr>
+          <tr><td>Rails bleus (−)</td><td>Connectés horizontalement</td></tr>
+          <tr><td>Colonnes centrales</td><td>5 trous connectés verticalement</td></tr>
+          <tr><td>Fossé central</td><td>Sépare la plaque en 2</td></tr>
+        </table>
+
+        <p><strong>3. Analogie de la ville</strong></p>
+        <ul>
+          <li><strong>Rails rouges/bleus</strong> = autoroutes électriques</li>
+          <li><strong>Colonnes centrales</strong> = immeubles de 5 étages connectés</li>
+          <li><strong>Fossé central</strong> = rivière qui sépare la ville</li>
+        </ul>
+
+        <div class="key-point">
+          ⭐ Règle : les trous d'une même colonne sont <strong>connectés</strong>.
+        </div>
+      </div>
+
+      <div class="center mt">
+        <button class="btn btn-primary" onclick="showSection('arduino')">Découvrir l'Arduino →</button>
+      </div>
+    </div>
+  `,
+
+  arduino: `
+    <div class="card">
+      <h2>🤖 L'Arduino : Le cerveau du robot</h2>
+      <p>L'Arduino est un <strong>microcontrôleur</strong> : un petit ordinateur qui peut contrôler des LEDs, des moteurs, des capteurs...</p>
+
+      <div class="analogy">
+        <strong>🎼 Analogie :</strong> L'Arduino est un <strong>chef d'orchestre</strong>.<br>
+        • <strong>Entrées</strong> = ses oreilles<br>
+        • <strong>Sorties</strong> = ses mains<br>
+        • <strong>Programme</strong> = la partition
+      </div>
+
+      <h3>🔍 Découvre la carte Arduino</h3>
+      <div style="background:#e3f2fd; border-radius:12px; padding:20px; text-align:center; margin:14px 0;">
+        <div style="display:inline-block; background:#0d47a1; color:#fff; padding:24px 32px; border-radius:12px;">
+          <div style="font-size:20px; font-weight:700; margin-bottom:10px;">Arduino UNO</div>
+          <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; font-size:13px;">
+            <span style="background:#1565c0; padding:5px 10px; border-radius:6px;">🔌 USB</span>
+            <span style="background:#1565c0; padding:5px 10px; border-radius:6px;">⚡ 5V</span>
+            <span style="background:#1565c0; padding:5px 10px; border-radius:6px;">🔢 Pins 0-13</span>
+            <span style="background:#1565c0; padding:5px 10px; border-radius:6px;">📊 A0-A5</span>
+          </div>
+        </div>
+      </div>
+
+      <h3>💻 Ton premier programme : Blink</h3>
+      <p style="font-size:14px;">Clique sur "Exécuter" pour voir la LED clignoter !</p>
+
+      <div class="code" id="blinkCode">
+        <span class="cline" data-i="0"><span class="kw">void</span> <span class="fn">setup</span>() {</span>
+        <span class="cline" data-i="1">  <span class="fn">pinMode</span>(<span class="num">13</span>, <span class="kw">OUTPUT</span>);</span>
+        <span class="cline" data-i="2">}</span>
+        <span class="cline" data-i="3"></span>
+        <span class="cline" data-i="4"><span class="kw">void</span> <span class="fn">loop</span>() {</span>
+        <span class="cline" data-i="5">  <span class="fn">digitalWrite</span>(<span class="num">13</span>, <span class="kw">HIGH</span>); <span class="cmt">// Allumer</span></span>
+        <span class="cline" data-i="6">  <span class="fn">delay</span>(<span class="num">1000</span>); <span class="cmt">// 1s</span></span>
+        <span class="cline" data-i="7">  <span class="fn">digitalWrite</span>(<span class="num">13</span>, <span class="kw">LOW</span>); <span class="cmt">// Éteindre</span></span>
+        <span class="cline" data-i="8">  <span class="fn">delay</span>(<span class="num">1000</span>); <span class="cmt">// 1s</span></span>
+        <span class="cline" data-i="9">}</span>
+      </div>
+
+      <div class="center" style="display:flex; gap:16px; align-items:center; justify-content:center; flex-wrap:wrap;">
+        <div style="text-align:center;">
+          <div class="led" id="blinkLED" style="width:56px; height:56px; margin: 0 auto;"></div>
+          <small style="font-size:12px;">LED pin 13</small>
+        </div>
+        <button class="btn btn-success" id="blinkBtn" onclick="toggleBlink()">▶️ Exécuter</button>
+      </div>
+
+      <div class="trace-ecrite">
+        <div class="trace-header">
+          <h3>Trace Écrite — L'Arduino</h3>
+          <span class="trace-sub">À recopier dans le cahier</span>
+        </div>
+
+        <p><strong>Leçon 6 : L'Arduino, le cerveau du robot</strong></p>
+
+        <p><strong>1. Définition</strong><br>
+        L'<strong>Arduino</strong> est un <strong>microcontrôleur</strong> : un petit ordinateur capable de contrôler des LEDs, des moteurs, des capteurs.</p>
+
+        <p><strong>2. Analogie</strong><br>
+        L'Arduino = un <strong>chef d'orchestre</strong> :</p>
+        <ul>
+          <li><strong>Entrées</strong> = ses oreilles (boutons, capteurs)</li>
+          <li><strong>Sorties</strong> = ses mains (LEDs, moteurs)</li>
+          <li><strong>Programme</strong> = la partition musicale</li>
+        </ul>
+
+        <p><strong>3. Structure d'un programme Arduino</strong></p>
+
+        <div class="trace-formula">
+          void setup() { ... }  → exécuté 1 fois<br>
+          void loop() { ... }   → répété à l'infini
+        </div>
+
+        <p><strong>4. Instructions de base</strong></p>
+        <table class="data">
+          <tr><th>Instruction</th><th>Rôle</th></tr>
+          <tr><td><code>pinMode(13, OUTPUT)</code></td><td>Configurer la pin 13 en sortie</td></tr>
+          <tr><td><code>digitalWrite(13, HIGH)</code></td><td>Allumer la pin 13 (5V)</td></tr>
+          <tr><td><code>digitalWrite(13, LOW)</code></td><td>Éteindre la pin 13 (0V)</td></tr>
+          <tr><td><code>delay(1000)</code></td><td>Attendre 1000 ms = 1 seconde</td></tr>
+        </table>
+
+        <p><strong>5. Programme Blink</strong></p>
+        <div class="trace-formula">
+          pinMode(13, OUTPUT);<br>
+          digitalWrite(13, HIGH); delay(1000);<br>
+          digitalWrite(13, LOW);  delay(1000);
+        </div>
+      </div>
+
+      <div class="center mt">
+        <button class="btn btn-primary" onclick="showSection('traffic')">Créer un feu tricolore →</button>
+      </div>
+    </div>
+  `,
+
+  traffic: `
+    <div class="card">
+      <h2>🚦 Projet : Feu Tricolore</h2>
+      <p>Maintenant, on va créer un <strong>feu tricolore automatique</strong> avec 3 LEDs (rouge, jaune, verte).</p>
+
+      <div class="analogy">
+        <strong>🎬 Analogie :</strong> C'est comme une <strong>pièce de théâtre</strong>. Chaque LED a son rôle et son moment pour briller.<br>
+        Rouge = stop • Jaune = attention • Vert = go !
+      </div>
+
+      <h3>🎮 Simulation interactive</h3>
+      <div class="traffic">
+        <div class="light red" id="tlRed"></div>
+        <div class="light yellow" id="tlYellow"></div>
+        <div class="light green" id="tlGreen"></div>
+      </div>
+
+      <div class="center">
+        <div id="trafficStatus" style="font-weight:700; font-size:16px; min-height:24px;">Appuie sur Démarrer</div>
+        <div class="btn-row">
+          <button class="btn btn-success" id="trafficBtn" onclick="toggleTraffic()">▶️ Démarrer</button>
+          <button class="btn btn-outline" onclick="resetTraffic()">🔄 Arrêter</button>
+        </div>
+      </div>
+
+      <h3>📝 Le code du feu tricolore</h3>
+      <div class="code">
+        <span class="cline"><span class="kw">void</span> <span class="fn">loop</span>() {</span>
+        <span class="cline">  <span class="cmt">// Vert 3 secondes</span></span>
+        <span class="cline">  <span class="fn">digitalWrite</span>(<span class="num">7</span>, <span class="kw">HIGH</span>);</span>
+        <span class="cline">  <span class="fn">delay</span>(<span class="num">3000</span>);</span>
+        <span class="cline">  <span class="fn">digitalWrite</span>(<span class="num">7</span>, <span class="kw">LOW</span>);</span>
+        <span class="cline">  <span class="cmt">// Jaune 1 seconde</span></span>
+        <span class="cline">  <span class="fn">digitalWrite</span>(<span class="num">8</span>, <span class="kw">HIGH</span>);</span>
+        <span class="cline">  <span class="fn">delay</span>(<span class="num">1000</span>);</span>
+        <span class="cline">  <span class="fn">digitalWrite</span>(<span class="num">8</span>, <span class="kw">LOW</span>);</span>
+        <span class="cline">  <span class="cmt">// Rouge 3 secondes</span></span>
+        <span class="cline">  <span class="fn">digitalWrite</span>(<span class="num">9</span>, <span class="kw">HIGH</span>);</span>
+        <span class="cline">  <span class="fn">delay</span>(<span class="num">3000</span>);</span>
+        <span class="cline">  <span class="fn">digitalWrite</span>(<span class="num">9</span>, <span class="kw">LOW</span>);</span>
+        <span class="cline">}</span>
+      </div>
+
+      <div class="tip">
+        <strong>💡 Astuce :</strong> Tu peux modifier les temps ! Par exemple, <code>delay(5000)</code> pour 5 secondes de vert.
+      </div>
+
+      <div class="trace-ecrite">
+        <div class="trace-header">
+          <h3>Trace Écrite — Feu Tricolore</h3>
+          <span class="trace-sub">À recopier dans le cahier</span>
+        </div>
+
+        <p><strong>Leçon 7 : Le feu tricolore automatique</strong></p>
+
+        <p><strong>1. Objectif</strong><br>
+        Créer un feu tricolore qui s'allume <strong>automatiquement</strong> grâce à l'Arduino, en utilisant 3 LEDs (rouge, jaune, verte).</p>
+
+        <p><strong>2. Matériel nécessaire</strong></p>
+        <ul>
+          <li>1 Arduino Uno</li>
+          <li>1 breadboard</li>
+          <li>3 LEDs (rouge, jaune, verte)</li>
+          <li>3 résistances de 220 Ω</li>
+          <li>Fils de connexion</li>
+        </ul>
+
+        <p><strong>3. Séquence du feu tricolore</strong></p>
+        <table class="data">
+          <tr><th>Étape</th><th>Couleur</th><th>Durée</th></tr>
+          <tr><td>1</td><td>🟢 Vert</td><td>3 secondes</td></tr>
+          <tr><td>2</td><td>🟡 Jaune</td><td>1 seconde</td></tr>
+          <tr><td>3</td><td>🔴 Rouge</td><td>3 secondes</td></tr>
+          <tr><td>4</td><td>↻ Recommencer</td><td>—</td></tr>
+        </table>
+
+        <p><strong>4. Code essentiel</strong></p>
+        <div class="trace-formula">
+          digitalWrite(7, HIGH);  // Vert ON<br>
+          delay(3000);<br>
+          digitalWrite(7, LOW);   // Vert OFF<br>
+          digitalWrite(8, HIGH);  // Jaune ON<br>
+          delay(1000);<br>
+          digitalWrite(8, LOW);   // Jaune OFF<br>
+          digitalWrite(9, HIGH);  // Rouge ON<br>
+          delay(3000);<br>
+          digitalWrite(9, LOW);   // Rouge OFF
+        </div>
+
+        <div class="key-point">
+          ⭐ Grâce à <strong>loop()</strong>, la séquence se répète automatiquement à l'infini.
+        </div>
+      </div>
+
+      <div class="center mt">
+        <button class="btn btn-primary" onclick="showSection('quiz')">Passer au quiz final →</button>
+      </div>
+    </div>
+  `,
+
+  quiz: `
+    <div class="card">
+      <h2>🧠 Quiz : As-tu tout compris ?</h2>
+      <div class="progress"><div id="quizProgress"></div></div>
+      <p style="font-size:14px; color:#666;">Score : <span id="quizScore">0</span> / 5</p>
+      <div id="quizContainer"></div>
+    </div>
+  `
+};
+
+// ================================================================
+// RENDER ENGINE
+// ================================================================
+var currentSection = null;
+
+function showSection(id) {
+  var tabs = document.querySelectorAll('.tab');
+  for (var i = 0; i < tabs.length; i++) {
+    tabs[i].classList.toggle('active', tabs[i].dataset.s === id);
+  }
+
+  if (blinkTimer) { clearInterval(blinkTimer); blinkTimer = null; }
+  if (trafficTimer) { clearTimeout(trafficTimer); trafficTimer = null; trafficRunning = false; }
+
+  batteryOn = false;
+  ledInverted = false;
+  resistorPresent = true;
+  quizScore = 0;
+  quizAnswered = 0;
+
+  var main = document.getElementById('main');
+  main.innerHTML = SECTIONS[id];
+  currentSection = id;
+
+  if (id === 'circuit') updateCircuit();
+  if (id === 'breadboard') buildBreadboard();
+  if (id === 'quiz') buildQuiz();
+
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+document.querySelectorAll('.tab').forEach(function(tab) {
+  tab.addEventListener('click', function() { showSection(this.dataset.s); });
+});
+
+// ================================================================
+// CIRCUIT
+// ================================================================
+var batteryOn = false;
+var ledInverted = false;
+var resistorPresent = true;
+
+function toggleBattery() { batteryOn = !batteryOn; updateCircuit(); }
+function toggleLED() { ledInverted = !ledInverted; updateCircuit(); }
+function toggleResistor() {
+  resistorPresent = !resistorPresent;
+  var r = document.getElementById('resistor');
+  if (r) r.style.opacity = resistorPresent ? '1' : '0.3';
+  updateCircuit();
+}
+
+function updateCircuit() {
+  var led = document.getElementById('led');
+  var status = document.getElementById('status');
+  var w1 = document.getElementById('w1');
+  var w2 = document.getElementById('w2');
+  var w3 = document.getElementById('w3');
+  if (!led || !status) return;
+
+  led.className = 'led';
+  if (!batteryOn) {
+    status.textContent = '🔋 Clique sur la pile pour allumer';
+    status.className = 'status';
+    w1.classList.remove('on'); w2.classList.remove('on'); w3.classList.remove('on');
+    return;
+  }
+  if (ledInverted) {
+    status.textContent = '🚫 LED inversée : le courant ne passe pas !';
+    status.className = 'status err';
+    w1.classList.remove('on'); w2.classList.remove('on'); w3.classList.remove('on');
+    return;
+  }
+  w1.classList.add('on'); w2.classList.add('on'); w3.classList.add('on');
+  if (!resistorPresent) {
+    led.className = 'led on';
+    status.textContent = '⚡ LED TRÈS FORTE — sans résistance elle va griller !';
+    status.className = 'status err';
+    setTimeout(function() {
+      var l = document.getElementById('led');
+      var s = document.getElementById('status');
+      if (l) l.className = 'led';
+      if (s) { s.textContent = '💥 La LED a grillé !'; s.className = 'status err'; }
+      batteryOn = false;
+    }, 1500);
+  } else {
+    led.className = 'led on';
+    status.textContent = '✅ LED allumée normalement !';
+    status.className = 'status ok';
+  }
+}
+
+function resetCircuit() {
+  batteryOn = false; ledInverted = false; resistorPresent = true;
+  var r = document.getElementById('resistor');
+  if (r) r.style.opacity = '1';
+  updateCircuit();
+}
+
+function grillLED() {
+  document.getElementById('grillResult').innerHTML =
+    '<div style="background:#ffebee; padding:16px; border-radius:12px; text-align:center;">' +
+    '<div style="font-size:32px;">💥</div>' +
+    '<strong style="color:#b71c1c;">La LED a grillé en 2 secondes !</strong><br>' +
+    '<small>Sans résistance, le courant est trop fort.</small></div>';
+}
+
+// ================================================================
+// BREADBOARD
+// ================================================================
+function buildBreadboard() {
+  var c = document.getElementById('breadboard');
+  if (!c) return;
+  var html = '', i, j;
+
+  html += '<div class="bb-row">';
+  for (i = 0; i < 30; i++) html += '<div class="bb-rail red" data-r="tr" onclick="hlRail(\'tr\')"></div>';
+  html += '</div><div class="bb-row" style="margin-bottom:10px;">';
+  for (i = 0; i < 30; i++) html += '<div class="bb-rail blue" data-r="tb" onclick="hlRail(\'tb\')"></div>';
+  html += '</div>';
+
+  for (j = 0; j < 5; j++) {
+    html += '<div class="bb-row">';
+    for (i = 0; i < 30; i++) html += '<div class="bb-hole" data-r="'+j+'" data-c="'+i+'" onclick="hlCol('+i+')"></div>';
+    html += '</div>';
+  }
+  html += '<div class="bb-gap"></div>';
+  for (j = 5; j < 10; j++) {
+    html += '<div class="bb-row">';
+    for (i = 0; i < 30; i++) html += '<div class="bb-hole" data-r="'+j+'" data-c="'+i+'" onclick="hlCol('+i+')"></div>';
+    html += '</div>';
+  }
+
+  html += '<div class="bb-row" style="margin-top:10px;">';
+  for (i = 0; i < 30; i++) html += '<div class="bb-rail blue" data-r="bb" onclick="hlRail(\'bb\')"></div>';
+  html += '</div><div class="bb-row">';
+  for (i = 0; i < 30; i++) html += '<div class="bb-rail red" data-r="br" onclick="hlRail(\'br\')"></div>';
+  html += '</div>';
+
+  c.innerHTML = html;
+}
+
+function hlCol(col) {
+  var all = document.querySelectorAll('.bb-hole');
+  for (var i = 0; i < all.length; i++) {
+    all[i].style.boxShadow = '';
+    all[i].style.background = '#9e9e9e';
+  }
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].dataset.c === String(col)) {
+      all[i].style.boxShadow = '0 0 8px #ff6d00';
+      all[i].style.background = '#ff6d00';
+    }
+  }
+}
+
+function hlRail(rail) {
+  var all = document.querySelectorAll('.bb-rail');
+  for (var i = 0; i < all.length; i++) {
+    all[i].style.boxShadow = '';
+    if (all[i].classList.contains('red')) all[i].style.background = '#ef5350';
+    if (all[i].classList.contains('blue')) all[i].style.background = '#42a5f5';
+  }
+  for (var i = 0; i < all.length; i++) {
+    if (all[i].dataset.r === rail) {
+      all[i].style.boxShadow = '0 0 8px #ff6d00';
+      all[i].style.background = '#ff6d00';
+    }
+  }
+}
+
+// ================================================================
+// BLINK
+// ================================================================
+var blinkTimer = null;
+
+function toggleBlink() {
+  var led = document.getElementById('blinkLED');
+  var btn = document.getElementById('blinkBtn');
+  var lines = document.querySelectorAll('#blinkCode .cline');
+  if (!led || !btn) return;
+
+  if (blinkTimer) {
+    clearInterval(blinkTimer); blinkTimer = null;
+    led.className = 'led'; btn.textContent = '▶️ Exécuter';
+    for (var i = 0; i < lines.length; i++) lines[i].classList.remove('active');
+    return;
+  }
+
+  btn.textContent = '⏹️ Arrêter';
+  var step = 0;
+  blinkTimer = setInterval(function() {
+    var l = document.getElementById('blinkLED');
+    if (!l) { clearInterval(blinkTimer); blinkTimer = null; return; }
+    for (var i = 0; i < lines.length; i++) lines[i].classList.remove('active');
+    if (step === 0) { lines[5].classList.add('active'); l.className = 'led on'; }
+    if (step === 1) { lines[6].classList.add('active'); }
+    if (step === 2) { lines[7].classList.add('active'); l.className = 'led'; }
+    if (step === 3) { lines[8].classList.add('active'); }
+    step = (step + 1) % 4;
+  }, 1000);
+}
+
+// ================================================================
+// TRAFFIC
+// ================================================================
+var trafficTimer = null;
+var trafficRunning = false;
+var trafficStep = 0;
+
+function toggleTraffic() {
+  var btn = document.getElementById('trafficBtn');
+  var status = document.getElementById('trafficStatus');
+  if (!btn) return;
+
+  if (trafficRunning) {
+    clearTimeout(trafficTimer);
+    trafficRunning = false;
+    btn.textContent = '▶️ Démarrer';
+    return;
+  }
+
+  trafficRunning = true;
+  btn.textContent = '⏸️ Pause';
+  trafficStep = 0;
+
+  var seq = [
+    { id: 'tlGreen', dur: 3000, txt: '🟢 Vert — 3 secondes' },
+    { id: 'tlYellow', dur: 1000, txt: '🟡 Jaune — 1 seconde' },
+    { id: 'tlRed', dur: 3000, txt: '🔴 Rouge — 3 secondes' }
+  ];
+
+  function run() {
+    if (!trafficRunning) return;
+    var lights = document.querySelectorAll('.traffic .light');
+    for (var i = 0; i < lights.length; i++) lights[i].classList.remove('on');
+    var s = seq[trafficStep];
+    var el = document.getElementById(s.id);
+    if (el) el.classList.add('on');
+    status.textContent = s.txt;
+    trafficTimer = setTimeout(function() {
+      trafficStep = (trafficStep + 1) % 3;
+      run();
+    }, s.dur);
+  }
+  run();
+}
+
+function resetTraffic() {
+  if (trafficTimer) clearTimeout(trafficTimer);
+  trafficRunning = false;
+  var lights = document.querySelectorAll('.traffic .light');
+  for (var i = 0; i < lights.length; i++) lights[i].classList.remove('on');
+  var s = document.getElementById('trafficStatus');
+  var b = document.getElementById('trafficBtn');
+  if (s) s.textContent = 'Appuie sur Démarrer';
+  if (b) b.textContent = '▶️ Démarrer';
+}
+
+// ================================================================
+// QUIZ
+// ================================================================
+var quizData = [
+  { q: "Quelle patte de la LED doit être connectée au pôle positif (+) ?",
+    opts: ["La patte courte", "La patte longue", "Peu importe", "Les deux"],
+    correct: 1,
+    exp: "La patte longue est l'anode (+)." },
+  { q: "À quoi sert la résistance de 220Ω ?",
+    opts: ["À éclairer plus fort", "À protéger la LED", "À ralentir l'Arduino", "À rien du tout"],
+    correct: 1,
+    exp: "La résistance limite le courant pour protéger la LED." },
+  { q: "Sur une breadboard, les trous d'une même colonne sont :",
+    opts: ["Séparés", "Connectés", "Aléatoires", "Inversés"],
+    correct: 1,
+    exp: "Les 5 trous d'une colonne sont connectés verticalement." },
+  { q: "Que fait delay(1000) ?",
+    opts: ["Allume la LED", "Attend 1 seconde", "Éteint la LED", "Redémarre l'Arduino"],
+    correct: 1,
+    exp: "delay(1000) attend 1000 ms = 1 seconde." },
+  { q: "Dans un feu tricolore, quelle couleur dure le plus longtemps ?",
+    opts: ["Le vert et le rouge (3s)", "Le jaune (1s)", "Toutes pareil", "Aucune"],
+    correct: 0,
+    exp: "Le vert et le rouge durent 3 secondes." }
+];
+
+var quizScore = 0;
+var quizAnswered = 0;
+
+function buildQuiz() {
+  var c = document.getElementById('quizContainer');
+  if (!c) return;
+  c.innerHTML = '';
+  quizScore = 0; quizAnswered = 0;
+  document.getElementById('quizScore').textContent = '0';
+  document.getElementById('quizProgress').style.width = '0%';
+
+  for (var i = 0; i < quizData.length; i++) {
+    (function(idx) {
+      var q = quizData[idx];
+      var div = document.createElement('div');
+      div.style.marginBottom = '20px';
+      var html = '<h3 style="font-size:15px; margin-bottom:8px;">' + (idx+1) + '. ' + q.q + '</h3>';
+      for (var j = 0; j < q.opts.length; j++) {
+        html += '<button class="quiz-opt" onclick="answerQuiz(' + idx + ', ' + j + ')">' +
+                String.fromCharCode(65+j) + '. ' + q.opts[j] + '</button>';
+      }
+      html += '<div class="feedback" id="fb-' + idx + '"></div>';
+      div.innerHTML = html;
+      c.appendChild(div);
+    })(i);
+  }
+}
+
+function answerQuiz(idx, ans) {
+  var q = quizData[idx];
+  var fb = document.getElementById('fb-' + idx);
+  if (!fb || fb.classList.contains('show')) return;
+
+  var opts = fb.parentElement.querySelectorAll('.quiz-opt');
+  for (var i = 0; i < opts.length; i++) {
+    opts[i].disabled = true;
+    if (i === q.correct) opts[i].classList.add('correct');
+    if (i === ans && i !== q.correct) opts[i].classList.add('wrong');
+  }
+
+  if (ans === q.correct) {
+    quizScore++;
+    fb.className = 'feedback correct show';
+    fb.textContent = '✅ ' + q.exp;
+  } else {
+    fb.className = 'feedback wrong show';
+    fb.textContent = '❌ ' + q.exp;
+  }
+  quizAnswered++;
+  document.getElementById('quizScore').textContent = quizScore;
+  document.getElementById('quizProgress').style.width = (quizAnswered / quizData.length * 100) + '%';
+
+  if (quizAnswered === quizData.length) {
+    var res = document.createElement('div');
+    res.style.cssText = 'margin-top:20px; padding:20px; border-radius:12px; text-align:center;';
+    if (quizScore === quizData.length) {
+      res.style.background = '#e8f5e9';
+      res.innerHTML = '<div style="font-size:36px;">🏆</div><strong style="color:#1b5e20;">Parfait ! Tu es un expert du Module 1 !</strong>';
+    } else if (quizScore >= 3) {
+      res.style.background = '#fff3e0';
+      res.innerHTML = '<div style="font-size:36px;">👍</div><strong style="color:#e65100;">Bien joué ! Tu as les bases.</strong>';
+    } else {
+      res.style.background = '#ffebee';
+      res.innerHTML = '<div style="font-size:36px;">📚</div><strong style="color:#b71c1c;">Continue à explorer !</strong>';
+    }
+    document.getElementById('quizContainer').appendChild(res);
+  }
+}
+
+// INIT
+showSection('intro');
+</script>
+
+</body>
+</html>
