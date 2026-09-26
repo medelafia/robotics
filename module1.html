@@ -25,7 +25,55 @@
   }
   .site-header h1 { font-size: 26px; margin-bottom: 6px; }
   .site-header p { font-size: 15px; opacity: 0.9; }
+  /* ===== BACK TO HOME BUTTON ===== */
+  .back-home {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(255, 255, 255, 0.15);
+    color: #fff;
+    border: 2px solid rgba(255, 255, 255, 0.4);
+    padding: 8px 16px;
+    border-radius: 30px;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    transition: all 0.2s;
+    z-index: 10;
+  }
+  .back-home:hover {
+    background: #fff;
+    color: #1a73e8;
+    border-color: #fff;
+    transform: translateX(-3px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  }
+  .back-home .arrow {
+    font-size: 16px;
+    transition: transform 0.2s;
+  }
+  .back-home:hover .arrow {
+    transform: translateX(-3px);
+  }
 
+  /* Responsive : sur mobile, le bouton devient plus petit */
+  @media (max-width: 600px) {
+    .back-home {
+      top: 12px;
+      left: 12px;
+      padding: 6px 12px;
+      font-size: 12px;
+    }
+    .back-home .label {
+      display: none;
+    }
+    .back-home .arrow {
+      font-size: 18px;
+    }
+  }
   /* TABS */
   .tabs {
     width: 100%;
@@ -458,7 +506,11 @@
 </head>
 <body>
 
-<header class="site-header">
+<header class="site-header" style="position: relative;">
+  <a href="/index.html" class="back-home" title="Retour à l'accueil">
+    <span class="arrow">←</span>
+    <span class="label">Accueil</span>
+  </a>
   <h1>⚡ Module 1 : Fondamentaux Électriques</h1>
   <p>LED • Breadboard • Arduino • Feu tricolore</p>
 </header>
@@ -634,17 +686,23 @@ var SECTIONS = {
       <h2>🔌 Le Circuit Électrique</h2>
       <p>Pour que l'électricité circule, il faut une <strong>boucle complète</strong> : c'est le circuit fermé.</p>
 
+      <!-- ===== ANALOGIE ===== -->
       <div class="analogy">
         <strong>🏰 Analogie du château d'eau :</strong><br>
-        1. L'eau part du château (pile +)<br>
-        2. Elle passe par le ralentisseur (résistance)<br>
-        3. Elle traverse la turbine (LED)<br>
-        4. Elle retourne au château (pile −)<br>
-        <strong>Sans boucle complète = pas de circulation !</strong>
+        1️⃣ L'eau part du château (pile +)<br>
+        2️⃣ Elle passe par le ralentisseur (résistance)<br>
+        3️⃣ Elle traverse la turbine (LED)<br>
+        4️⃣ Elle retourne au château (pile −)<br>
+        <strong style="color:#d50000;">⚠️ Sans boucle complète = pas de circulation !</strong>
       </div>
 
+      <!-- ===== CIRCUIT INTERACTIF ===== -->
       <h3>🎮 Circuit interactif — Clique sur les éléments !</h3>
-      <p style="font-size:14px; color:#666;">Clique sur la pile pour allumer/éteindre. Clique sur la LED pour inverser sa polarité. Clique sur la résistance pour l'enlever.</p>
+      <p style="font-size:14px; color:#666; margin-bottom:10px;">
+        🖱️ <strong>Clique sur la pile</strong> pour allumer/éteindre.<br>
+        🔄 <strong>Clique sur la LED</strong> pour inverser sa polarité.<br>
+        🛡️ <strong>Clique sur la résistance</strong> pour l'enlever (attention !).
+      </p>
 
       <div class="circuit-box">
         <div class="circuit-items">
@@ -669,6 +727,55 @@ var SECTIONS = {
         <button class="btn btn-outline" onclick="resetCircuit()">🔄 Réinitialiser</button>
       </div>
 
+      <!-- ===== SECTION TINKERCAD ===== -->
+      <h3 style="margin-top:30px;">🌐 Simulation Tinkercad</h3>
+      <p style="font-size:14px; color:#666;">
+        Tinkercad est un simulateur en ligne qui permet de construire et tester des circuits comme dans la réalité.
+        👉 <strong>Interagissez directement avec le circuit ci-dessous</strong> : cliquez sur la pile, déplacez les fils, etc.
+      </p>
+
+      <!-- Encadré info Tinkercad -->
+      <div style="background:#e3f2fd; border-left:5px solid #1a73e8; padding:12px 16px; border-radius:0 10px 10px 0; margin:14px 0;">
+        <strong>💡 Que voir dans cette simulation ?</strong>
+        <ul style="margin:8px 0 0 20px; font-size:14px;">
+          <li>🔋 <strong>Pile 9V</strong> : fournit l'énergie au circuit</li>
+          <li>🟤 <strong>Résistance 220Ω</strong> : protège la LED</li>
+          <li>💡 <strong>LED rouge</strong> : s'allume quand le courant passe</li>
+          <li>🔵 <strong>Fils</strong> : relient les composants entre eux</li>
+        </ul>
+      </div>
+
+      <!-- Iframe Tinkercad -->
+      <div style="margin: 20px 0; border-radius: 12px; overflow: hidden; border: 2px solid #e0e4e8; box-shadow: 0 4px 16px rgba(0,0,0,0.08);">
+        <div style="background:#1a73e8; color:#fff; padding:8px 16px; font-size:13px; font-weight:600;">
+          🌐 Tinkercad — Module 1 Circuit
+        </div>
+        <iframe 
+          src="https://www.tinkercad.com/embed/5fFzJbeDzzD" 
+          width="100%" 
+          height="500" 
+          frameborder="0" 
+          allowfullscreen
+          style="display:block; background:#fff;">
+        </iframe>
+      </div>
+
+      <p style="font-size: 13px; color: #666; text-align: center; margin-top: 8px;">
+        Simulation interactive Tinkercad — vous pouvez interagir directement avec le circuit.
+      </p>
+
+      <!-- Bouton d'ouverture dans un nouvel onglet -->
+      <div class="center" style="margin: 20px 0;">
+        <a href="https://www.tinkercad.com/things/5fFzJbeDzzD-module-1-circuit?sharecode=ZjrQA0NUYRx_JxsYb--KZrL8xfqKn3Us6NOuoascswg" 
+          target="_blank" 
+          rel="noopener" 
+          class="btn btn-outline" 
+          style="text-decoration: none; display:inline-flex; align-items:center; gap:8px;">
+          🔗 Ouvrir dans Tinkercad (nouvel onglet)
+        </a>
+      </div>
+
+      <!-- ===== TRACE ÉCRITE ===== -->
       <div class="trace-ecrite">
         <div class="trace-header">
           <h3>Trace Écrite — Le Circuit</h3>
@@ -709,8 +816,16 @@ var SECTIONS = {
 
         <p><strong>5. Sens du courant</strong><br>
         Le courant part du <strong>+</strong> de la pile et revient au <strong>−</strong>.</p>
+
+        <div class="key-point">
+          🎨 <strong>Schéma du circuit à recopier :</strong><br>
+          <code style="font-family:'Courier New', monospace; font-size:13px; display:block; margin-top:6px;">
+            (+) ── [Résistance 220Ω] ── [LED] ── (−)
+          </code>
+        </div>
       </div>
 
+      <!-- ===== NAVIGATION ===== -->
       <div class="center mt">
         <button class="btn btn-primary" onclick="showSection('resistance')">Découvrir la résistance →</button>
       </div>
@@ -806,6 +921,7 @@ var SECTIONS = {
         • <strong>Fossé central</strong> = rivière qui sépare la ville
       </div>
 
+      <!-- ===== BREADBOARD INTERACTIVE ===== -->
       <h3>🔍 Explore la breadboard</h3>
       <p style="font-size:14px; color:#666;">Clique sur un trou pour voir les autres trous connectés (surbrillance orange).</p>
 
@@ -815,6 +931,55 @@ var SECTIONS = {
         <strong>💡 Astuce :</strong> Les trous d'une même <strong>colonne</strong> (5 trous verticaux) sont connectés. Les rails rouges (+) et bleus (−) sont connectés horizontalement.
       </div>
 
+      <!-- ===== SECTION TINKERCAD ===== -->
+      <h3 style="margin-top:30px;">🌐 Simulation Tinkercad</h3>
+      <p style="font-size:14px; color:#666;">
+        Tinkercad est un simulateur en ligne qui permet de construire et tester des circuits comme dans la réalité.
+        👉 <strong>Interagissez directement avec la breadboard ci-dessous</strong> : ajoutez des composants, connectez des fils, etc.
+      </p>
+
+      <!-- Encadré info Tinkercad -->
+      <div style="background:#e3f2fd; border-left:5px solid #1a73e8; padding:12px 16px; border-radius:0 10px 10px 0; margin:14px 0;">
+        <strong>💡 Que voir dans cette simulation ?</strong>
+        <ul style="margin:8px 0 0 20px; font-size:14px;">
+          <li>🔴 <strong>Rails rouges</strong> : la ligne d'alimentation positive (+)</li>
+          <li>🔵 <strong>Rails bleus</strong> : la ligne d'alimentation négative (−)</li>
+          <li>🟢 <strong>Colonnes centrales</strong> : 5 trous connectés verticalement</li>
+          <li>🌉 <strong>Fossé central</strong> : sépare la breadboard en deux moitiés</li>
+        </ul>
+      </div>
+
+      <!-- Iframe Tinkercad -->
+      <div style="margin: 20px 0; border-radius: 12px; overflow: hidden; border: 2px solid #e0e4e8; box-shadow: 0 4px 16px rgba(0,0,0,0.08);">
+        <div style="background:#1a73e8; color:#fff; padding:8px 16px; font-size:13px; font-weight:600;">
+          🌐 Tinkercad — Module 1 Breadboard
+        </div>
+        <iframe 
+          src="https://www.tinkercad.com/embed/iRqBPMXyGyB" 
+          width="100%" 
+          height="500" 
+          frameborder="0" 
+          allowfullscreen
+          style="display:block; background:#fff;">
+        </iframe>
+      </div>
+
+      <p style="font-size: 13px; color: #666; text-align: center; margin-top: 8px;">
+        Simulation interactive Tinkercad — vous pouvez interagir directement avec la breadboard.
+      </p>
+
+      <!-- Bouton d'ouverture dans un nouvel onglet -->
+      <div class="center" style="margin: 20px 0;">
+        <a href="https://www.tinkercad.com/things/iRqBPMXyGyB-module-1-breadboard" 
+          target="_blank" 
+          rel="noopener" 
+          class="btn btn-outline" 
+          style="text-decoration: none; display:inline-flex; align-items:center; gap:8px;">
+          🔗 Ouvrir dans Tinkercad (nouvel onglet)
+        </a>
+      </div>
+
+      <!-- ===== ACTIVITÉS PÉDAGOGIQUES ===== -->
       <h3>🎯 Les 3 défis de la breadboard</h3>
       <div style="display:flex; gap:10px; flex-wrap:wrap; margin:14px 0;">
         <div style="flex:1; min-width:160px; background:#e3f2fd; padding:14px; border-radius:12px;">
@@ -831,6 +996,7 @@ var SECTIONS = {
         </div>
       </div>
 
+      <!-- ===== TRACE ÉCRITE ===== -->
       <div class="trace-ecrite">
         <div class="trace-header">
           <h3>Trace Écrite — La Breadboard</h3>
@@ -870,101 +1036,164 @@ var SECTIONS = {
   `,
 
   arduino: `
-    <div class="card">
-      <h2>🤖 L'Arduino : Le cerveau du robot</h2>
-      <p>L'Arduino est un <strong>microcontrôleur</strong> : un petit ordinateur qui peut contrôler des LEDs, des moteurs, des capteurs...</p>
+  <div class="card">
+    <h2>🤖 L'Arduino : Le cerveau du robot</h2>
+    <p>L'Arduino est un <strong>microcontrôleur</strong> : un petit ordinateur qui peut contrôler des LEDs, des moteurs, des capteurs...</p>
 
-      <div class="analogy">
-        <strong>🎼 Analogie :</strong> L'Arduino est un <strong>chef d'orchestre</strong>.<br>
-        • <strong>Entrées</strong> = ses oreilles<br>
-        • <strong>Sorties</strong> = ses mains<br>
-        • <strong>Programme</strong> = la partition
-      </div>
+    <div class="analogy">
+      <strong>🎼 Analogie :</strong> L'Arduino est un <strong>chef d'orchestre</strong>.<br>
+      • <strong>Entrées</strong> = ses oreilles<br>
+      • <strong>Sorties</strong> = ses mains<br>
+      • <strong>Programme</strong> = la partition
+    </div>
 
-      <h3>🔍 Découvre la carte Arduino</h3>
-      <div style="background:#e3f2fd; border-radius:12px; padding:20px; text-align:center; margin:14px 0;">
-        <div style="display:inline-block; background:#0d47a1; color:#fff; padding:24px 32px; border-radius:12px;">
-          <div style="font-size:20px; font-weight:700; margin-bottom:10px;">Arduino UNO</div>
-          <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; font-size:13px;">
-            <span style="background:#1565c0; padding:5px 10px; border-radius:6px;">🔌 USB</span>
-            <span style="background:#1565c0; padding:5px 10px; border-radius:6px;">⚡ 5V</span>
-            <span style="background:#1565c0; padding:5px 10px; border-radius:6px;">🔢 Pins 0-13</span>
-            <span style="background:#1565c0; padding:5px 10px; border-radius:6px;">📊 A0-A5</span>
-          </div>
+    <h3>🔍 Découvre la carte Arduino</h3>
+    <div style="background:#e3f2fd; border-radius:12px; padding:20px; text-align:center; margin:14px 0;">
+      <div style="display:inline-block; background:#0d47a1; color:#fff; padding:24px 32px; border-radius:12px;">
+        <div style="font-size:20px; font-weight:700; margin-bottom:10px;">Arduino UNO</div>
+        <div style="display:flex; gap:8px; flex-wrap:wrap; justify-content:center; font-size:13px;">
+          <span style="background:#1565c0; padding:5px 10px; border-radius:6px;">🔌 USB</span>
+          <span style="background:#1565c0; padding:5px 10px; border-radius:6px;">⚡ 5V</span>
+          <span style="background:#1565c0; padding:5px 10px; border-radius:6px;">🔢 Pins 0-13</span>
+          <span style="background:#1565c0; padding:5px 10px; border-radius:6px;">📊 A0-A5</span>
         </div>
-      </div>
-
-      <h3>💻 Ton premier programme : Blink</h3>
-      <p style="font-size:14px;">Clique sur "Exécuter" pour voir la LED clignoter !</p>
-
-      <div class="code" id="blinkCode">
-        <span class="cline" data-i="0"><span class="kw">void</span> <span class="fn">setup</span>() {</span>
-        <span class="cline" data-i="1">  <span class="fn">pinMode</span>(<span class="num">13</span>, <span class="kw">OUTPUT</span>);</span>
-        <span class="cline" data-i="2">}</span>
-        <span class="cline" data-i="3"></span>
-        <span class="cline" data-i="4"><span class="kw">void</span> <span class="fn">loop</span>() {</span>
-        <span class="cline" data-i="5">  <span class="fn">digitalWrite</span>(<span class="num">13</span>, <span class="kw">HIGH</span>); <span class="cmt">// Allumer</span></span>
-        <span class="cline" data-i="6">  <span class="fn">delay</span>(<span class="num">1000</span>); <span class="cmt">// 1s</span></span>
-        <span class="cline" data-i="7">  <span class="fn">digitalWrite</span>(<span class="num">13</span>, <span class="kw">LOW</span>); <span class="cmt">// Éteindre</span></span>
-        <span class="cline" data-i="8">  <span class="fn">delay</span>(<span class="num">1000</span>); <span class="cmt">// 1s</span></span>
-        <span class="cline" data-i="9">}</span>
-      </div>
-
-      <div class="center" style="display:flex; gap:16px; align-items:center; justify-content:center; flex-wrap:wrap;">
-        <div style="text-align:center;">
-          <div class="led" id="blinkLED" style="width:56px; height:56px; margin: 0 auto;"></div>
-          <small style="font-size:12px;">LED pin 13</small>
-        </div>
-        <button class="btn btn-success" id="blinkBtn" onclick="toggleBlink()">▶️ Exécuter</button>
-      </div>
-
-      <div class="trace-ecrite">
-        <div class="trace-header">
-          <h3>Trace Écrite — L'Arduino</h3>
-          <span class="trace-sub">À recopier dans le cahier</span>
-        </div>
-
-        <p><strong>Leçon 6 : L'Arduino, le cerveau du robot</strong></p>
-
-        <p><strong>1. Définition</strong><br>
-        L'<strong>Arduino</strong> est un <strong>microcontrôleur</strong> : un petit ordinateur capable de contrôler des LEDs, des moteurs, des capteurs.</p>
-
-        <p><strong>2. Analogie</strong><br>
-        L'Arduino = un <strong>chef d'orchestre</strong> :</p>
-        <ul>
-          <li><strong>Entrées</strong> = ses oreilles (boutons, capteurs)</li>
-          <li><strong>Sorties</strong> = ses mains (LEDs, moteurs)</li>
-          <li><strong>Programme</strong> = la partition musicale</li>
-        </ul>
-
-        <p><strong>3. Structure d'un programme Arduino</strong></p>
-
-        <div class="trace-formula">
-          void setup() { ... }  → exécuté 1 fois<br>
-          void loop() { ... }   → répété à l'infini
-        </div>
-
-        <p><strong>4. Instructions de base</strong></p>
-        <table class="data">
-          <tr><th>Instruction</th><th>Rôle</th></tr>
-          <tr><td><code>pinMode(13, OUTPUT)</code></td><td>Configurer la pin 13 en sortie</td></tr>
-          <tr><td><code>digitalWrite(13, HIGH)</code></td><td>Allumer la pin 13 (5V)</td></tr>
-          <tr><td><code>digitalWrite(13, LOW)</code></td><td>Éteindre la pin 13 (0V)</td></tr>
-          <tr><td><code>delay(1000)</code></td><td>Attendre 1000 ms = 1 seconde</td></tr>
-        </table>
-
-        <p><strong>5. Programme Blink</strong></p>
-        <div class="trace-formula">
-          pinMode(13, OUTPUT);<br>
-          digitalWrite(13, HIGH); delay(1000);<br>
-          digitalWrite(13, LOW);  delay(1000);
-        </div>
-      </div>
-
-      <div class="center mt">
-        <button class="btn btn-primary" onclick="showSection('traffic')">Créer un feu tricolore →</button>
       </div>
     </div>
+
+    <h3>💻 Ton premier programme : Blink</h3>
+    <p style="font-size:14px;">Clique sur "Exécuter" pour voir la LED clignoter !</p>
+
+    <div class="code" id="blinkCode">
+      <span class="cline" data-i="0"><span class="kw">void</span> <span class="fn">setup</span>() {</span>
+      <span class="cline" data-i="1">  <span class="fn">pinMode</span>(<span class="num">13</span>, <span class="kw">OUTPUT</span>);</span>
+      <span class="cline" data-i="2">}</span>
+      <span class="cline" data-i="3"></span>
+      <span class="cline" data-i="4"><span class="kw">void</span> <span class="fn">loop</span>() {</span>
+      <span class="cline" data-i="5">  <span class="fn">digitalWrite</span>(<span class="num">13</span>, <span class="kw">HIGH</span>); <span class="cmt">// Allumer</span></span>
+      <span class="cline" data-i="6">  <span class="fn">delay</span>(<span class="num">1000</span>); <span class="cmt">// 1s</span></span>
+      <span class="cline" data-i="7">  <span class="fn">digitalWrite</span>(<span class="num">13</span>, <span class="kw">LOW</span>); <span class="cmt">// Éteindre</span></span>
+      <span class="cline" data-i="8">  <span class="fn">delay</span>(<span class="num">1000</span>); <span class="cmt">// 1s</span></span>
+      <span class="cline" data-i="9">}</span>
+    </div>
+
+    <div class="center" style="display:flex; gap:16px; align-items:center; justify-content:center; flex-wrap:wrap;">
+      <div style="text-align:center;">
+        <div class="led" id="blinkLED" style="width:56px; height:56px; margin: 0 auto;"></div>
+        <small style="font-size:12px;">LED pin 13</small>
+      </div>
+      <button class="btn btn-success" id="blinkBtn" onclick="toggleBlink()">▶️ Exécuter</button>
+    </div>
+
+    <!-- ===== SECTION TINKERCAD ===== -->
+    <h3 style="margin-top:30px;">🌐 Simulation Tinkercad</h3>
+    <p style="font-size:14px; color:#666;">
+      Tinkercad permet de simuler l'Arduino en ligne, sans matériel physique.
+      👉 <strong>Interagissez directement avec la carte ci-dessous</strong> : modifiez le code, ajoutez des composants, lancez la simulation.
+    </p>
+
+    <!-- Encadré info Tinkercad -->
+    <div style="background:#e3f2fd; border-left:5px solid #1a73e8; padding:12px 16px; border-radius:0 10px 10px 0; margin:14px 0;">
+      <strong>💡 Que voir dans cette simulation ?</strong>
+      <ul style="margin:8px 0 0 20px; font-size:14px;">
+        <li>🔌 <strong>Port USB</strong> : connexion à l'ordinateur</li>
+        <li>⚡ <strong>Broches 5V et GND</strong> : alimentation</li>
+        <li>🔢 <strong>Pins 0-13</strong> : sorties numériques (LEDs, moteurs)</li>
+        <li>📊 <strong>Pins A0-A5</strong> : entrées analogiques (capteurs)</li>
+        <li>💡 <strong>LED pin 13</strong> : clignote avec le programme Blink</li>
+      </ul>
+    </div>
+
+    <!-- Iframe Tinkercad -->
+    <div style="margin: 20px 0; border-radius: 12px; overflow: hidden; border: 2px solid #e0e4e8; box-shadow: 0 4px 16px rgba(0,0,0,0.08);">
+      <div style="background:#1a73e8; color:#fff; padding:8px 16px; font-size:13px; font-weight:600;">
+        🌐 Tinkercad — Module 1 Arduino
+      </div>
+      <iframe 
+        src="https://www.tinkercad.com/embed/7VejWLW6Dhf" 
+        width="100%" 
+        height="500" 
+        frameborder="0" 
+        allowfullscreen
+        style="display:block; background:#fff;">
+      </iframe>
+    </div>
+
+    <p style="font-size: 13px; color: #666; text-align: center; margin-top: 8px;">
+      Simulation interactive Tinkercad — vous pouvez interagir directement avec l'Arduino.
+    </p>
+
+    <!-- Bouton d'ouverture dans un nouvel onglet -->
+    <div class="center" style="margin: 20px 0;">
+      <a href="https://www.tinkercad.com/things/7VejWLW6Dhf-module-1-arduino" 
+        target="_blank" 
+        rel="noopener" 
+        class="btn btn-outline" 
+        style="text-decoration: none; display:inline-flex; align-items:center; gap:8px;">
+        🔗 Ouvrir dans Tinkercad (nouvel onglet)
+      </a>
+    </div>
+
+    <!-- ===== ACTIVITÉ PÉDAGOGIQUE ===== -->
+    <h3>🎯 Mission Tinkercad</h3>
+    <div style="background:#fff8e1; border-left:5px solid #ffab00; padding:14px 18px; border-radius:0 10px 10px 0; margin:14px 0;">
+      <strong>🧪 Activité guidée :</strong>
+      <ol style="margin:8px 0 0 20px; font-size:14px;">
+        <li>Ouvrir la simulation Tinkercad.</li>
+        <li>Repérer le <strong>port USB</strong>, les <strong>pins 0-13</strong> et les <strong>pins A0-A5</strong>.</li>
+        <li>Lancer le programme Blink → observer la LED pin 13.</li>
+        <li><strong>Modifier</strong> <code>delay(1000)</code> en <code>delay(200)</code> → le clignotement s'accélère.</li>
+        <li>Ajouter une <strong>deuxième LED</strong> sur la pin 12 → la faire clignoter aussi.</li>
+      </ol>
+    </div>
+
+    <!-- ===== TRACE ÉCRITE ===== -->
+    <div class="trace-ecrite">
+      <div class="trace-header">
+        <h3>Trace Écrite — L'Arduino</h3>
+        <span class="trace-sub">À recopier dans le cahier</span>
+      </div>
+
+      <p><strong>Leçon 6 : L'Arduino, le cerveau du robot</strong></p>
+
+      <p><strong>1. Définition</strong><br>
+      L'<strong>Arduino</strong> est un <strong>microcontrôleur</strong> : un petit ordinateur capable de contrôler des LEDs, des moteurs, des capteurs.</p>
+
+      <p><strong>2. Analogie</strong><br>
+      L'Arduino = un <strong>chef d'orchestre</strong> :</p>
+      <ul>
+        <li><strong>Entrées</strong> = ses oreilles (boutons, capteurs)</li>
+        <li><strong>Sorties</strong> = ses mains (LEDs, moteurs)</li>
+        <li><strong>Programme</strong> = la partition musicale</li>
+      </ul>
+
+      <p><strong>3. Structure d'un programme Arduino</strong></p>
+
+      <div class="trace-formula">
+        void setup() { ... }  → exécuté 1 fois<br>
+        void loop() { ... }   → répété à l'infini
+      </div>
+
+      <p><strong>4. Instructions de base</strong></p>
+      <table class="data">
+        <tr><th>Instruction</th><th>Rôle</th></tr>
+        <tr><td><code>pinMode(13, OUTPUT)</code></td><td>Configurer la pin 13 en sortie</td></tr>
+        <tr><td><code>digitalWrite(13, HIGH)</code></td><td>Allumer la pin 13 (5V)</td></tr>
+        <tr><td><code>digitalWrite(13, LOW)</code></td><td>Éteindre la pin 13 (0V)</td></tr>
+        <tr><td><code>delay(1000)</code></td><td>Attendre 1000 ms = 1 seconde</td></tr>
+      </table>
+
+      <p><strong>5. Programme Blink</strong></p>
+      <div class="trace-formula">
+        pinMode(13, OUTPUT);<br>
+        digitalWrite(13, HIGH); delay(1000);<br>
+        digitalWrite(13, LOW);  delay(1000);
+      </div>
+    </div>
+
+    <div class="center mt">
+      <button class="btn btn-primary" onclick="showSection('traffic')">Créer un feu tricolore →</button>
+    </div>
+  </div>
   `,
 
   traffic: `
